@@ -6,5 +6,5 @@ export const store = configureStore({reducer: rootReducer, preloadedState: preLo
 
 store.subscribe(()=>{
 	saveState(store.getState())
-	})
+})
 
