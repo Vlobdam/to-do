@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import allActions from './app/actions'
+import {Text, TopWrapper, NotUpdatingWrapper, Container, Button, UpdatingWrapper, Header} from './styleComponents'
 
 const toDoListActions = allActions.toDoListActions
 
@@ -13,15 +14,16 @@ const ToDoInput = (props) => {
 		dispatch(toDoListActions.addTask(input))
 		changeInput('')
 	}
+	
 	return (
-		<div>
+		<TopWrapper>
 		<input
 			type='text'
 			value={input}
 			onChange={handleChange}
 		/>
 		<button onClick={submit}>submit</button>
-		</div>
+		</TopWrapper>
 	);
 }
 const ToDoList = (props) => {
@@ -60,13 +62,17 @@ const ToDoListItemNotUpdating = (props)=>{
 	const handleDeleting = ()=>{
 		dispatch(toDoListActions.deleteTask(props.index))
 	}
+	
+
 	return (
-	<div className='flex'>
+	<NotUpdatingWrapper>
 		<input type='checkbox' checked={props.isChecked} onChange={()=>dispatch(toDoListActions.checkTask(props.index))}/>
-		<p>{props.text}</p>
-		<button onClick={handleUpdating}>Update</button>
-		<button onClick={handleDeleting}>Delete</button>
-	</div>	
+		<Text>{props.text}</Text>
+		<Container>
+		<Button onClick={handleUpdating}>Update</Button>
+		<Button onClick={handleDeleting}>Delete</Button>
+		</Container>
+	</NotUpdatingWrapper>	
 	)	
 }
 
@@ -81,23 +87,26 @@ const ToDoListItemUpdating = (props) =>{
 	const cancelUpdate = ()=>{
 		dispatch(toDoListActions.changeUpdatingState(props.index,false))
 	}
+
 	return (
-		<div className='flex'>
+	<UpdatingWrapper>
 		<input
+			key={props.index}
 			type='text'
 			value={input}
 			onChange={handleChange}
 		/>
-		<button onClick={confirmUpdate}>confirm</button>
-		<button onClick={cancelUpdate}>cancel</button>
-		</div>
+		<Button onClick={confirmUpdate}>Confirm</Button>
+		<Button onClick={cancelUpdate}>Cancel</Button>
+	</UpdatingWrapper>
 
 	)
 }	
 
 const App = () => {
   return (
-    <div className="App">
+    <div>
+		<Header>To Do App</Header>
 		<ToDoInput />
 		<ToDoList />
     </div>
